@@ -1916,7 +1916,7 @@ function withMacroTask (fn) {
     try {
       return fn.apply(null, arguments)
     } finally {
-      useMacroTask = false;    
+      useMacroTask = false;
     }
   })
 }
@@ -7961,7 +7961,10 @@ var TransitionGroup = {
     // force reflow to put everything in position
     // assign to this to avoid being removed in tree-shaking
     // $flow-disable-line
-    this._reflow = document.body.offsetHeight;
+    var iframe = (this.$el && this.$el.ownerDocument.defaultView) ? this.$el.ownerDocument.defaultView.frameElement : null
+    var body = iframe ? iframe.contentWindow.document.body : document.body
+    this._reflow = body.offsetHeight;
+    // this._reflow = document.body.offsetHeight;
 
     children.forEach(function (c) {
       if (c.data.moved) {
